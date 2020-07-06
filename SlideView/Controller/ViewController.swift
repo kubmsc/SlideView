@@ -8,22 +8,35 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, BlurVCDelegate {
+    func removeBlurView() {
+       for subview in view.subviews {
+            if subview.isKind(of: UIVisualEffectView.self) {
+                subview.removeFromSuperview()
+            }
+        }
+    }
+    
 
     
+    @IBOutlet var homeView: UIView!
     
     let transition = SlideInTransition()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
     }
     
     @IBAction func showViewButton(_ sender: UIButton) {
 
+       // blurEffect()
+        setBlurView()
         let newView = NewView(frame:CGRect(x: 40, y: 450, width: 300, height: 100))
         self.view.addSubview(newView)
-        
+        newView.delegate = self
+
     }
 
     @IBAction func didTapMenu(_ sender: UIBarButtonItem) {
@@ -33,7 +46,19 @@ class ViewController: UIViewController {
     
         present(menuViewController, animated: true)
     }
+
+    func setBlurView() {
+        let blurView = UIVisualEffectView()
+        blurView.frame = view.frame
+        blurView.effect = UIBlurEffect(style: .light)
+        view.addSubview(blurView)
+    }
     
+    
+    func removeBlurEffect() {
+        view.viewWithTag(9)?.removeFromSuperview()
+    
+    }
     
 }
 

@@ -8,11 +8,16 @@
 
 import UIKit
 
+protocol BlurVCDelegate: class {
+    func removeBlurView()
+}
+
 class NewView: UIView {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var textLabel: UILabel!
     
+    weak var delegate: BlurVCDelegate?
     
     
     override init (frame: CGRect) {
@@ -38,10 +43,10 @@ class NewView: UIView {
         addSubview(contentView)
         contentView.frame =  self.bounds
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        
     }
-    
     @IBAction func hideButton(_ sender: UIButton) {
+        delegate?.removeBlurView()
         contentView.removeFromSuperview()
+        
     }
 }
